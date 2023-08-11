@@ -1,0 +1,6 @@
+server:
+  port: 9003 #The port that will be used by the embedded web server
+
+spring:
+  application:
+    name: dispatcher-service #The name of the application
