@@ -4,3 +4,31 @@ server:
 spring:
   application:
     name: dispatcher-service #The name of the application
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-connect-timeout: 5000 # 5s
+      request-read-timeout: 5000 # 5s
+      fail-fast: false # In production, set to true
+      retry:
+        max-attempts: 6
+        initial-interval: 1000 # 1s
+        max-interval: 2000 # 2s
+        multiplier: 1.1
+    function:
+      definition: pack|label #Definition of the function managed by Spring Cloud Function
+    stream:
+      bindings: #Section for configuring destination bindings
+        packlabel-in-0: #The input binding
+          destination: order-accepted #The actual name at the broker that the binder binds to (the exchange in RabbitMQ)
+          group: ${spring.application.name} #The consumer group interested in the destination (same as the application name)
+        packlabel-out-0: #The output binding
+          destination: order-dispatched #The actual name at the broker that the binder binds to (the exchange in RabbitMQ)
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 5s
