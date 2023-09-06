@@ -34,15 +34,15 @@ spec:
               port: 9003
             initialDelaySeconds: 10
             periodSeconds: 5
-            readinessProbe:
-              httpGet:
-                path: /actuator/health/readiness
-                port: 9003
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9003
               initialDelaySeconds: 5
               periodSeconds: 15
-            volumeMounts:
-              - name: dispatcher-config-volume
-                mountPath: /workspace/config
+          volumeMounts:
+            - name: dispatcher-config-volume
+              mountPath: /workspace/config
       volumes:
         - name: dispatcher-config-volume
           configMap:
